@@ -5,24 +5,33 @@ services:
         ports:
             - "80:80"
             - "443:443"
+        depends_on: 
+            - php
         volumes:
             - ./hosts:/etc/nginx/conf.d
             - ./server:/var/www
             - ./logs:/var/log/nginx
             - ./ssl:/etc/nginx/ssl
+    push-stream:
+        build: ./docker-images/push-stream
+        ports:
+            - "9080:9080"
     php:
         build: ./docker-images/php
         volumes:
-            - ./server:/var/www    
+            - ./server:/var/www   
+        environment:
+            XDEBUG_CONFIG: "remote_host=172.17.0.1"
     node:
         build: ./docker-images/nodejs
         environment:
-          - NODE_ENV=development
+            - NODE_ENV=development
         volumes:
-          - ./client:/usr/src/app
+            - ./client:/usr/src/app
+        working_dir: /usr/src/app
         ports:
-          - "3000:3000"
-          - "4200:4200"
+            - "3000:3000"
+            - "4200:4200"
         command: "node /usr/src/app/index.js"
     percona:
         image: percona:5
@@ -32,3 +41,17 @@ services:
             - ./percona:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: 1234    
+    postgres:
+        image: postgres:latest
+        ports:
+            - "5432:5432"
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: 1234
+        volumes:
+            - ./postgres:/var/lib/postgresql
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8088:8080
