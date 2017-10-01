@@ -1,45 +1,24 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Rx";
 import {Subject} from "rxjs/Subject";
 import {User} from "./user/user";
+import {UserService} from "./user/user.service";
+import {LoginService} from "./login/login.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'app';
-  USER_URL: string = 'https://frontend.local/users';
-  user: Subject<User> = new Subject();
+export class AppComponent implements OnInit{
+    isSignIn: boolean = false;
 
-  constructor(private httpClient: HttpClient) {
-      this.getUserById(1).subscribe(
-          (user) => {
-            console.log(user);
-            this.user.next(user);
-          },
-          (error) => console.log(error)
-      );
-
-      this.user.subscribe(user => console.log(user));
-
-      const obs = Observable.interval(1000);
-
-      obs.take(3).subscribe(v => console.log('1. '+v));
-      obs.take(5).subscribe(v => console.log('2. '+v));
+  constructor(private loginService: LoginService) {
   }
 
-  public getUsers(url: string): Observable<any>{
-      const options = {params: new HttpParams().set('access-token', '5DBx6qjvcIqx8j1wSlij__3lWDRLwzr5')};
-      return this.httpClient.get(url, options);
+  ngOnInit() {
+      this.loginService.isSignIn.subscribe((res: boolean) => this.isSignIn = res);
   }
 
-  public getUserById(id: number): Observable<User>{
-      const url = this.USER_URL + '/' + id;
-      const params = new HttpParams().set('access-token', '5DBx6qjvcIqx8j1wSlij__3lWDRLwzr5');
-      //const headers = new HttpHeaders().set('Authorization', 'Bearer 5DBx6qjvcIqx8j1wSlij__3lWDRLwzr5');
-      return this.httpClient.get(url, {params: params})
-  }
 }

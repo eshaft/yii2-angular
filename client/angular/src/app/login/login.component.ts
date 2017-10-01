@@ -1,6 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {Login} from "./login";
 import {HttpClient} from "@angular/common/http";
+import {User} from "../user/user";
+import {Subject} from "rxjs/Subject";
+import {LoginService} from "./login.service";
 
 @Component({
   selector: 'app-login',
@@ -9,18 +12,25 @@ import {HttpClient} from "@angular/common/http";
 })
 export class LoginComponent implements OnInit {
   login: Login = new Login;
+  isSignIn: boolean = false;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private loginService: LoginService) { }
 
   ngOnInit() {
+    this.loginService.isSignIn.subscribe((res: boolean) => this.isSignIn = res);
   }
 
   signIn() {
-    const body = {LoginForm: {username: this.login.username, password: this.login.password}};
-    this.httpClient.post('http://frontend.local/login/sign-in', body)
-        .subscribe(
-            r => console.log(r),
-            r => console.log(r)
-        );
+      const body = {LoginForm: {username: this.login.username, password: this.login.password}};
+      this.loginService.signIn(body)
+          .subscribe(
+              (user: User) => {
+                  this.loginService.currentUser.next(user);
+                  this.loginService.isSignIn.next(true);
+              },
+              err => {
+                  this.loginService.isSignIn.next(false);
+              }
+          );
   }
 }

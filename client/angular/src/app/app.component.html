@@ -5,5 +5,9 @@
     <a routerLink="user/1" [queryParams]="{'name': 'Igor'}" routerLinkActive="active">User 1</a>
 </div>
 
+<div>
+    <span *ngIf="isSignIn">is sign in</span>
+</div>
+
 <router-outlet></router-outlet>
 

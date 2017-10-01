@@ -1,5 +1,8 @@
 <div>
   <input name="login" [(ngModel)]="login.username" #username ="ngModel" required />
   <input type="password" name="password" [(ngModel)]="login.password" #password="ngModel" required />
-  <button [disabled]="username.invalid || password.invalid" (click)="signIn()">Login</button>
+  <button [disabled]="username.invalid || password.invalid" (click)="signIn()" class="btn btn-primary">Login</button>
+</div>
+<div>
+  <span *ngIf="isSignIn">is sign in</span>
 </div>

@@ -11,6 +11,7 @@ import {UserService} from "./user/user.service";
 import { WsComponent } from './ws/ws.component';
 import {WsService} from "./ws/ws.service";
 import {FormsModule} from "@angular/forms";
+import {LoginService} from "./login/login.service";
 
 
 const routes: Routes = [
@@ -39,7 +40,7 @@ const routes: Routes = [
     HttpClientModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [UserService, WsService],
+  providers: [UserService, WsService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
