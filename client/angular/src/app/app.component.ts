@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs/Rx";
 import {Subject} from "rxjs/Subject";
@@ -11,14 +11,17 @@ import {LoginService} from "./login/login.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-    isSignIn: boolean = false;
+export class AppComponent implements OnInit {
+    brand = 'Yii2-Angular4-Bootstrap4';
+    username: string;
+    isLogin: boolean = false;
 
-  constructor(private loginService: LoginService) {
-  }
+  constructor(
+      private loginService: LoginService
+      ) { }
 
   ngOnInit() {
-      this.loginService.isSignIn.subscribe((res: boolean) => this.isSignIn = res);
+      this.loginService.isLogin.subscribe((res: boolean) => this.isLogin = res);
+      this.loginService.currentUser.subscribe((user: User) => this.username = user.username);
   }
-
 }

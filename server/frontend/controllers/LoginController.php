@@ -27,7 +27,7 @@ class LoginController extends ActiveController
         ];
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::className(),
-            'except' => ['sign-in']
+            'except' => ['login']
         ];
         return $behaviors;
     }
@@ -37,7 +37,7 @@ class LoginController extends ActiveController
      *
      * @return mixed
      */
-    public function actionSignIn()
+    public function actionLogin()
     {
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {

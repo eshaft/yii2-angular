@@ -1,8 +1,41 @@
-<div>
-  <input name="login" [(ngModel)]="login.username" #username ="ngModel" required />
-  <input type="password" name="password" [(ngModel)]="login.password" #password="ngModel" required />
-  <button [disabled]="username.invalid || password.invalid" (click)="signIn()" class="btn btn-primary">Login</button>
-</div>
-<div>
-  <span *ngIf="isSignIn">is sign in</span>
+<h1>Login</h1>
+
+<div class="row">
+  <div class="col-lg-5">
+    <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit(loginForm)">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+                [ngClass]="{'is-invalid': loginForm.controls.username.invalid}"
+                type="text" name="username" formControlName=username class="form-control"
+                id="username" placeholder="Enter username">
+        <div class="invalid-feedback" *ngIf="loginForm.controls.username.hasError('backend')">
+          Please provide a valid one = {{ loginForm.controls.username.getError('backend') }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+                [ngClass]="{'is-invalid': loginForm.controls.password.invalid}"
+                type="password" name="password" formControlName=password class="form-control"
+                id="password" placeholder="Password">
+        <div class="invalid-feedback" *ngIf="loginForm.controls.password.hasError('backend')">
+          Please provide a valid one = {{ loginForm.controls.password.getError('backend') }}
+        </div>
+      </div>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input type="checkbox" name="rememberMe" formControlName=rememberMe class="form-check-input">
+          Remember Me
+        </label>
+        <div class="invalid-feedback">
+          Please provide a valid one.
+        </div>
+      </div>
+      <div style="color:#999;margin:1em 0">
+        If you forgot your password you can <a routerLink="/request-password-reset">reset it</a>.
+      </div>
+      <button type="submit" [disabled]="loginForm.invalid" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
 </div>

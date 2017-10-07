@@ -16,6 +16,8 @@ services:
         build: ./docker-images/push-stream
         ports:
             - "9080:9080"
+        depends_on: 
+            - nginx
     php:
         build: ./docker-images/php
         volumes:

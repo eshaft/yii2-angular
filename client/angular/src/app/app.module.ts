@@ -10,13 +10,18 @@ import { UserComponent } from './user/user.component';
 import {UserService} from "./user/user.service";
 import { WsComponent } from './ws/ws.component';
 import {WsService} from "./ws/ws.service";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LoginService} from "./login/login.service";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { LogoutComponent } from './logout/logout.component';
+import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
 
 
 const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch:'full' },
     { path: 'login', component: LoginComponent },
+    { path: 'logout', component: LogoutComponent },
+    { path: 'request-password-reset', component: RequestPasswordResetComponent },
     { path: 'user/:id', component: UserComponent },
     { path: 'ws', component: WsComponent },
 
@@ -32,13 +37,17 @@ const routes: Routes = [
     NotFoundComponent,
     LoginComponent,
     UserComponent,
-    WsComponent
+    WsComponent,
+    LogoutComponent,
+    RequestPasswordResetComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    NgbModule.forRoot()
   ],
   providers: [UserService, WsService, LoginService],
   bootstrap: [AppComponent]

@@ -1,13 +1,27 @@
-<div>
-    <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Главная</a> |
-    <a routerLink="login" routerLinkActive="active">Логин</a>
-    <a routerLink="ws" routerLinkActive="active">WebSocket</a>
-    <a routerLink="user/1" [queryParams]="{'name': 'Igor'}" routerLinkActive="active">User 1</a>
+<div class="wrap">
+    <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+        <div class="container">
+            <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+               class="navbar-brand">{{ brand }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
+                       class="nav-item nav-link">Home</a>
+                    <a *ngIf="!isLogin" routerLink="login" routerLinkActive="active"
+                       class="nav-item nav-link">Login</a>
+                    <a *ngIf="isLogin" routerLink="logout" routerLinkActive="active"
+                       class="nav-item nav-link">Logout ({{ username }})</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
 </div>
-
-<div>
-    <span *ngIf="isSignIn">is sign in</span>
-</div>
-
-<router-outlet></router-outlet>
-
