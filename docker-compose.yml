@@ -24,6 +24,12 @@ services:
             - ./server:/var/www   
         environment:
             XDEBUG_CONFIG: "remote_host=172.17.0.1"
+    gearman:
+        build: ./docker-images/gearman
+    beanstalkd:
+        build: ./docker-images/beanstalkd
+    rabbitmq:
+        image: rabbitmq:latest
     node:
         build: ./docker-images/nodejs
         environment:
@@ -47,13 +53,11 @@ services:
         image: postgres:latest
         ports:
             - "5432:5432"
-        restart: always
         environment:
             POSTGRES_PASSWORD: 1234
         volumes:
             - ./postgres:/var/lib/postgresql
     adminer:
         image: adminer
-        restart: always
         ports:
             - 8088:8080

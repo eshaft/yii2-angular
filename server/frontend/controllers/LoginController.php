@@ -12,6 +12,7 @@ namespace frontend\controllers;
 use common\models\LoginForm;
 use common\models\User;
 use Yii;
+use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 
@@ -23,12 +24,13 @@ class LoginController extends ActiveController
     {
         $behaviors = parent::behaviors();
         $behaviors['corsFilter'] = [
-            'class' => \yii\filters\Cors::className()
+            'class' => \yii\filters\Cors::className(),
         ];
         $behaviors['authenticator'] = [
-            'class' => QueryParamAuth::className(),
-            'except' => ['login']
+            'class' => HttpBearerAuth::className(),
+            'except' => ['options', 'login']
         ];
+
         return $behaviors;
     }
 

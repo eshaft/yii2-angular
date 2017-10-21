@@ -1,6 +1,10 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\formatters\CsvResponseFormatter;
+use common\components\formatters\XlsResponseFormatter;
+use common\components\formatters\YamlResponseFormatter;
+use common\jobs\MailJob;
 use common\models\User;
 use common\models\UserAuth;
 use Yii;
@@ -136,6 +140,52 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        /*$models = User::find()->all();
+        $data = array_map(function($model) {
+            return $model->toArray();
+        }, $models);
+
+        $response = Yii::$app->response;
+        $response->format = YamlResponseFormatter::FORMAT;
+        $response->data = $data;
+
+        Yii::$app->end();*/
+
+        /*$response = Yii::$app->response;
+        $response->format = CsvResponseFormatter::FORMAT;
+        $response->data = User::find()->all();
+
+        Yii::$app->end();*/
+
+        $response = Yii::$app->response;
+        $response->format = XlsResponseFormatter::FORMAT;
+        $response->data = User::find()->all();
+
+        Yii::$app->end();
+
+        //return $response;
+
+        //echo Yii::$app->user->can('manager'); exit;
+
+        //$auth = Yii::$app->authManager;
+
+        /*$admin = $auth->getRole('admin');
+
+        $manager = $auth->createRole('manager');
+        $auth->add($manager);
+        $auth->addChild($admin, $manager);*/
+
+        //$auth->revoke($admin, 1);
+        //$auth->assign($manager, 1);
+
+        /*Yii::$app->rabbitmq->push(new MailJob([
+            'name' => 'Igor',
+            'email' => 'eshaft@gmail.com',
+            'title' => 'Hello! rabbitmq works!',
+            'body' => 'Hello! rabbitmq works!'
+        ]));*/
+
+
         return $this->render('index');
     }
 

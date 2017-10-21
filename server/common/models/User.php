@@ -26,7 +26,6 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
-
     /**
      * @inheritdoc
      */
@@ -54,6 +53,20 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
+    }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+
+        // удаляем поля, содержащие конфиденциальную информацию
+        unset(
+            $fields['auth_key'],
+            $fields['password_hash'],
+            $fields['password_reset_token']
+        );
+
+        return $fields;
     }
 
     /**

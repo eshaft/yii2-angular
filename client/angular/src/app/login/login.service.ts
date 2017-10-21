@@ -1,6 +1,6 @@
 import {Injectable, OnInit} from '@angular/core';
 import {User} from "../user/user";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 
@@ -14,7 +14,10 @@ export class LoginService implements OnInit {
   ngOnInit() {}
 
   login(body): Observable<any> {
-      return this.httpClient.post('http://frontend.local/login/login', body);
+      const headers = new HttpHeaders()
+          .set('Authorization', 'Bearer 5DBx6qjvcIqx8j1wSlij__3lWDRLwzr5');
+      const options = {headers: headers};
+      return this.httpClient.post('http://frontend.local/login/login', body, options);
   }
 
 }
