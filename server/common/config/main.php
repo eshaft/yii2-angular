@@ -27,7 +27,20 @@ return [
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'user'],
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'login'],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'login',
+                    'pluralize' => false,
+                    'patterns' => [
+                        'POST login-by-auth-key' => 'login-by-auth-key',
+                        'OPTIONS login-by-auth-key' => 'options',
+                        'POST login-by-form' => 'login-by-form',
+                        'OPTIONS login-by-form' => 'options',
+                        'POST reset-password' => 'reset-password',
+                        'GET reset-password' => 'reset-password',
+                        'OPTIONS reset-password' => 'options',
+                    ]
+                ],
             ],
         ],
         'gearman' => [

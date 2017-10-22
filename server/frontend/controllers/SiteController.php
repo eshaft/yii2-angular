@@ -157,11 +157,11 @@ class SiteController extends Controller
 
         Yii::$app->end();*/
 
-        $response = Yii::$app->response;
+        /*$response = Yii::$app->response;
         $response->format = XlsResponseFormatter::FORMAT;
         $response->data = User::find()->all();
 
-        Yii::$app->end();
+        Yii::$app->end();*/
 
         //return $response;
 

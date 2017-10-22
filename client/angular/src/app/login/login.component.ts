@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Login} from "./login";
-import {User} from "../user/user";
 import {LoginService} from "./login.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import * as _ from 'lodash';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+import {Breadcrumb} from "../breadcrumb/breadcrumb";
 
 @Component({
   selector: 'app-login',
@@ -14,6 +14,10 @@ import 'rxjs/add/operator/filter';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  breadcrumbLinks: Breadcrumb[] = [
+      {link:'', label:'Home'},
+      {link:null, label:'Login'}
+  ];
   login: Login = new Login;
   isLogin: boolean = false;
   loginForm: FormGroup;
@@ -57,11 +61,12 @@ export class LoginComponent implements OnInit {
 
   onSubmit(form) {
       console.log(form);
-      this.loginService.login({LoginForm: form.value})
+      this.loginService.loginByForm({LoginForm: form.value})
           .subscribe(
-              (user: User) => {
-                  this.loginService.currentUser.next(user);
+              (user: any) => {
+                  this.loginService.currentUser.next(user.user);
                   this.loginService.isLogin.next(true);
+                  this.loginService.setAuthKey(user.auth_key);
                   form.setValue(new Login());
                   this.router.navigate(['/']);
               },

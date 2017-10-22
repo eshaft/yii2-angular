@@ -12,6 +12,8 @@
                 <div class="navbar-nav">
                     <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
                        class="nav-item nav-link">Home</a>
+                    <a *ngIf="!isLogin" routerLink="signup" routerLinkActive="active"
+                       class="nav-item nav-link">Signup</a>
                     <a *ngIf="!isLogin" routerLink="login" routerLinkActive="active"
                        class="nav-item nav-link">Login</a>
                     <a *ngIf="isLogin" routerLink="logout" routerLinkActive="active"
@@ -21,7 +23,10 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container mt-3">
+        <p *ngFor="let alert of alertService.getAlerts()">
+            <ngb-alert [type]="alert.type" (close)="alertService.closeAlert(alert)">{{ alert.message }}</ngb-alert>
+        </p>
         <router-outlet></router-outlet>
     </div>
 </div>

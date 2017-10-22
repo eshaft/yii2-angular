@@ -1,10 +1,7 @@
-import {AfterViewInit, ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs/Rx";
-import {Subject} from "rxjs/Subject";
+import {Component, OnInit} from '@angular/core';
 import {User} from "./user/user";
-import {UserService} from "./user/user.service";
 import {LoginService} from "./login/login.service";
+import {AlertService} from "./alert.service";
 
 @Component({
   selector: 'app-root',
@@ -16,12 +13,16 @@ export class AppComponent implements OnInit {
     username: string;
     isLogin: boolean = false;
 
-  constructor(
-      private loginService: LoginService
-      ) { }
+    constructor(
+      private loginService: LoginService,
+      public alertService: AlertService
+    ) { }
 
-  ngOnInit() {
-      this.loginService.isLogin.subscribe((res: boolean) => this.isLogin = res);
-      this.loginService.currentUser.subscribe((user: User) => this.username = user.username);
-  }
+    ngOnInit() {
+        this.loginService.loginByAuthKey();
+        this.loginService.isLogin
+            .subscribe((res: boolean) => this.isLogin = res);
+        this.loginService.currentUser
+            .subscribe((user: User) => this.username = user.username);
+    }
 }
