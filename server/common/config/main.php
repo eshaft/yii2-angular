@@ -65,17 +65,5 @@ return [
             'as log' => \yii\queue\LogBehavior::class,
         ],
     ],
-    'modules' => [
-        'gii' => [
-            'class' => 'yii\gii\Module',
-            'allowedIPs' => ['*']
-        ],
-        'debug' => [
-            'class' => \yii\debug\Module::class,
-            'panels' => [
-                'queue' => \yii\queue\debug\Panel::class,
-            ],
-            'allowedIPs' => ['*']
-        ],
-    ]
+
 ];
