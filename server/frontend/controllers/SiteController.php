@@ -355,9 +355,21 @@ class SiteController extends Controller
             if ($response->isOk) {
                 $campaign = $response->data['response'][0];
             }
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.getCampaigns')
+                ->setData([
+                    'access_token' => $user->vk_token,
+                    'account_id' => $account_id,
+                ])
+                ->send();
+            if ($response->isOk) {
+                $campaigns = $response->data['response'];
+            }
 
             return $this->render('campaign', [
                 'campaign' => $campaign,
+                'campaigns' => $campaigns,
                 'account_id' => $account_id,
                 'campaign_id' => $campaign_id,
                 'cabinet' => $cabinet,
