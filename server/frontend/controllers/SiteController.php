@@ -410,7 +410,7 @@ class SiteController extends Controller
                 ->setUrl('https://oauth.vk.com/access_token')
                 ->setData([
                     'client_id' => 6196137,
-                    'client_secret' => Yii::$app->params->vk_secret,
+                    'client_secret' => Yii::$app->params['vk_secret'],
                     'redirect_uri' => 'http://188.225.84.145/site/vk',
                     'code' => $code
                 ])
