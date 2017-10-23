@@ -417,7 +417,7 @@ class SiteController extends Controller
                 ->send();
             if ($response->isOk) {
                 $token = $response->data['access_token'];
-                $user = Yii::$app->user;
+                $user = User::findOne(Yii::$app->user->id);
                 $user->vk_token = $token;
                 $user->save(false);
             }
