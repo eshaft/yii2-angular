@@ -10,7 +10,7 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
         'response' => [
-            'formatters' => [
+            /*'formatters' => [
                 'yaml' => [
                     'class' => '\common\components\formatters\YamlResponseFormatter'
                 ],
@@ -20,7 +20,7 @@ return [
                 'xls' => [
                     'class' => '\common\components\formatters\XlsResponseFormatter'
                 ]
-            ]
+            ]*/
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
