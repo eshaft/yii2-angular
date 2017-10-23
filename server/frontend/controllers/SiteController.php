@@ -353,7 +353,7 @@ class SiteController extends Controller
                 ])
                 ->send();
             if ($response->isOk) {
-                $campaign = $response->data['response'];
+                $campaign = $response->data['response'][0];
             }
 
             return $this->render('campaign', [
