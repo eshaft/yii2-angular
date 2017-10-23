@@ -1,7 +1,7 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'bootstrap' => ['gii', 'debug', 'gearman', 'beanstalkd', 'rabbitmq'],
+    'bootstrap' => ['gearman', 'beanstalkd', 'rabbitmq'],
     'components' => [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
