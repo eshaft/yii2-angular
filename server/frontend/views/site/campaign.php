@@ -6,14 +6,16 @@
  * Time: 13:18
  */
 ?>
-
+<h3><?=$cabinet['account_name']?></h3>
+<h4><?=$campaign['name']?></h4>
+<p><a href="/site/cabinet?account_id=<?=$account_id?>" class="btn btn-primary" role="button">К списку кампаний</a></p>
 <?php if($ads): ?>
-    <h3><?=$cabinet['account_name']?></h3>
-    <h4><?=$campaign['name']?></h4>
-    <p><a href="/site/cabinet?account_id=<?=$account_id?>" class="btn btn-primary" role="button">К списку кампаний</a></p>
+
     <?php foreach ($ads as $ad): ?>
         <div class="row">
             <h4><?=$ad['name']?></h4>
+            <p><a href="/site/del?account_id=<?=$account_id?>&campaign_id=<?=$campaign_id?>&ads_id=<?=$ad['id']?>" class="btn btn-primary" role="button">Удалить</a></p>
+
             <div class="row">
                 <div class="col-lg-6">
                     Название капании
@@ -92,14 +94,6 @@
                 </div>
                 <div class="col-lg-6">
                     <?=$ad['category1_id']?> (<?=$ad['category2_id']?>)
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    Целевая аудитория
-                </div>
-                <div class="col-lg-6">
-                    <?=$ad['category1_id']?>
                 </div>
             </div>
         </div>

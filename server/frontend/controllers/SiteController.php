@@ -5,6 +5,7 @@ use common\components\formatters\CsvResponseFormatter;
 use common\components\formatters\XlsResponseFormatter;
 use common\components\formatters\YamlResponseFormatter;
 use common\jobs\MailJob;
+use common\models\Descr;
 use common\models\User;
 use common\models\UserAuth;
 use Yii;
@@ -358,6 +359,7 @@ class SiteController extends Controller
             return $this->render('campaign', [
                 'campaign' => $campaign,
                 'account_id' => $account_id,
+                'campaign_id' => $campaign_id,
                 'cabinet' => $cabinet,
                 'ads' => $ads,
                 'statuses' => [
@@ -377,6 +379,25 @@ class SiteController extends Controller
         }
 
         $this->redirect(['site/index']);
+    }
+
+    public function actionDel($account_id, $campaign_id, $ads_id)
+    {
+        $user = User::findOne(1);
+        if($user->vk_token) {
+            $client = new Client();
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.deleteAds')
+                ->setData([
+                    'access_token' => $user->vk_token,
+                    'account_id' => $account_id,
+                    'ids' => Json::encode([$ads_id])
+                ])
+                ->send();
+        }
+
+        $this->redirect(["site/campaign?account_id=$account_id&campaign_id=$campaign_id"]);
     }
 
     public function actionVk()
