@@ -390,7 +390,7 @@ class SiteController extends Controller
                 ->setData([
                     'client_id' => 6196137,
                     'client_secret' => 'dp6t8N7g59iFnZqD01JU',
-                    'redirect_uri' => 'http://frontend.local/site/vk',
+                    'redirect_uri' => 'http://188.225.84.145/site/vk',
                     'code' => $code
                 ])
                 ->send();
