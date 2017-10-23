@@ -36,7 +36,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['index', 'logout', 'signup'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -44,7 +44,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['index', 'logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -189,7 +189,7 @@ class SiteController extends Controller
             'body' => 'Hello! rabbitmq works!'
         ]));*/
 
-        $user = User::findOne(1);
+        $user = Yii::$app->user->identity;
         if($user->vk_token) {
             $this->redirect(['site/cabinetes']);
         }
@@ -200,7 +200,7 @@ class SiteController extends Controller
 
     public function actionQuit()
     {
-        $user = User::findOne(1);
+        $user = Yii::$app->user->identity;
         if($user) {
             $user->vk_token = null;
             $user->save(false);
@@ -211,7 +211,7 @@ class SiteController extends Controller
 
     public function actionCabinetes()
     {
-        $user = User::findOne(1);
+        $user = Yii::$app->user->identity;
         if($user->vk_token) {
             $client = new Client();
             $response = $client->createRequest()
@@ -249,7 +249,7 @@ class SiteController extends Controller
 
     public function actionCabinet($account_id)
     {
-        $user = User::findOne(1);
+        $user = Yii::$app->user->identity;
         if($user->vk_token) {
             $client = new Client();
             $response = $client->createRequest()
@@ -295,7 +295,7 @@ class SiteController extends Controller
 
     public function actionCampaign($account_id, $campaign_id)
     {
-        $user = User::findOne(1);
+        $user = Yii::$app->user->identity;
         if($user->vk_token) {
             $client = new Client();
             $response = $client->createRequest()
@@ -383,7 +383,7 @@ class SiteController extends Controller
 
     public function actionDel($account_id, $campaign_id, $ads_id)
     {
-        $user = User::findOne(1);
+        $user = Yii::$app->user->identity;
         if($user->vk_token) {
             $client = new Client();
             $response = $client->createRequest()
