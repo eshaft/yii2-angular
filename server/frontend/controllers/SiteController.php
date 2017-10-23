@@ -343,7 +343,6 @@ class SiteController extends Controller
             if ($response->isOk) {
                 $campaign = $response->data['response'][0];
             }
-            var_dump($response);
 
             return $this->render('campaign', [
                 'campaign' => $campaign,
