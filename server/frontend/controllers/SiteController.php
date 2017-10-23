@@ -341,7 +341,7 @@ class SiteController extends Controller
                 ])
                 ->send();
             if ($response->isOk) {
-                $campaign = $response->data['response'][0];
+                $campaign = $response->data['response'];
             }
 
             $response = $client->createRequest()
