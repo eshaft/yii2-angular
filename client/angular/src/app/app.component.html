@@ -9,9 +9,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
+                <div class="navbar-nav mr-auto ">
                     <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}"
                        class="nav-item nav-link">Home</a>
+                    <a *ngIf="isLogin" routerLink="users" routerLinkActive="active"
+                       class="nav-item nav-link">Users</a>
                     <a *ngIf="!isLogin" routerLink="signup" routerLinkActive="active"
                        class="nav-item nav-link">Signup</a>
                     <a *ngIf="!isLogin" routerLink="login" routerLinkActive="active"
@@ -19,13 +21,17 @@
                     <a *ngIf="isLogin" routerLink="logout" routerLinkActive="active"
                        class="nav-item nav-link">Logout ({{ username }})</a>
                 </div>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                </form>
             </div>
         </div>
     </nav>
 
     <div class="container mt-3">
         <p *ngFor="let alert of alertService.getAlerts()">
-            <ngb-alert [type]="alert.type" (close)="alertService.closeAlert(alert)">{{ alert.message }}</ngb-alert>
+            <alert [type]="alert.type" (close)="alertService.closeAlert(alert)">{{ alert.message }}</alert>
         </p>
         <router-outlet></router-outlet>
     </div>

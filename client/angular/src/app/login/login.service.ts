@@ -22,7 +22,7 @@ export class LoginService implements OnInit {
   }
 
   loginByForm(body): Observable<any> {
-      return this.httpClient.post('http://frontend.local/login/login-by-form', body);
+      return this.httpClient.post('https://frontend.local/login/login-by-form', body);
   }
 
   signUp(body): Observable<any> {
@@ -52,7 +52,7 @@ export class LoginService implements OnInit {
         .set('Authorization', 'Bearer ' + auth_key);
       const options = {headers: headers};
 
-      this.httpClient.post('http://frontend.local/login/login-by-auth-key',
+      this.httpClient.post('https://frontend.local/login/login-by-auth-key',
           {auth_key: auth_key}, options
           ).subscribe(
           (user: any) => {

@@ -9,6 +9,9 @@ use common\models\User;
 use common\models\UserAuth;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
+use yii\httpclient\Client;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -185,8 +188,221 @@ class SiteController extends Controller
             'body' => 'Hello! rabbitmq works!'
         ]));*/
 
+        $user = User::findOne(1);
+        if($user->vk_token) {
+            $this->redirect(['site/cabinetes']);
+        }
+
 
         return $this->render('index');
+    }
+
+    public function actionQuit()
+    {
+        $user = User::findOne(1);
+        if($user) {
+            $user->vk_token = null;
+            $user->save(false);
+        }
+
+        $this->redirect(['site/index']);
+    }
+
+    public function actionCabinetes()
+    {
+        $user = User::findOne(1);
+        if($user->vk_token) {
+            $client = new Client();
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.getAccounts')
+                ->setData([
+                    'access_token' => $user->vk_token
+                ])
+                ->send();
+            if ($response->isOk) {
+                $cabinetes = $response->data['response'];
+            }
+
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/users.get')
+                ->setData([
+                    'access_token' => $user->vk_token,
+                    'fields' => 'photo_id,photo_50, photo_100, photo_200_orig, photo_200, photo_400_orig, photo_max, photo_max_orig'
+                ])
+                ->send();
+            if ($response->isOk) {
+                $users = $response->data['response'][0];
+            }
+
+            return $this->render('cabinetes', [
+                'cabinetes' => $cabinetes,
+                'user' => $users
+            ]);
+
+        }
+
+        $this->redirect(['site/index']);
+    }
+
+    public function actionCabinet($account_id)
+    {
+        $user = User::findOne(1);
+        if($user->vk_token) {
+            $client = new Client();
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.getCampaigns')
+                ->setData([
+                    'access_token' => $user->vk_token,
+                    'account_id' => $account_id,
+                ])
+                ->send();
+            if ($response->isOk) {
+                $campaigns = $response->data['response'];
+            }
+
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.getAccounts')
+                ->setData([
+                    'access_token' => $user->vk_token
+                ])
+                ->send();
+            if ($response->isOk) {
+                $cabinetes = $response->data['response'];
+                $cabinetes = array_filter($cabinetes, function($a) use ($account_id) {
+                    return $a["account_id"] == $account_id;
+                });
+                if($cabinetes) {
+                    foreach ($cabinetes as $cab) {
+                        $cabinet = $cab;
+                    }
+                }
+            }
+
+            return $this->render('cabinet', [
+                'campaigns' => $campaigns,
+                'account_id' => $account_id,
+                'cabinet' => $cabinet
+            ]);
+        }
+
+        $this->redirect(['site/index']);
+    }
+
+    public function actionCampaign($account_id, $campaign_id)
+    {
+        $user = User::findOne(1);
+        if($user->vk_token) {
+            $client = new Client();
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.getAds')
+                ->setData([
+                    'access_token' => $user->vk_token,
+                    'account_id' => $account_id,
+                    'campaign_ids' => Json::encode([$campaign_id]),
+                    'include_deleted' => 0
+                ])
+                ->send();
+            if ($response->isOk) {
+                $ads = $response->data['response'];
+            }
+
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.getAccounts')
+                ->setData([
+                    'access_token' => $user->vk_token
+                ])
+                ->send();
+            if ($response->isOk) {
+                $cabinetes = $response->data['response'];
+                $cabinetes = array_filter($cabinetes, function($a) use ($account_id) {
+                    return $a["account_id"] == $account_id;
+                });
+                if($cabinetes) {
+                    foreach ($cabinetes as $cab) {
+                        $cabinet = $cab;
+                    }
+                }
+            }
+
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.getCampaigns')
+                ->setData([
+                    'access_token' => $user->vk_token,
+                    'account_id' => $account_id,
+                    'campaign_ids' => Json::encode([$campaign_id]),
+                ])
+                ->send();
+            if ($response->isOk) {
+                $campaign = $response->data['response'][0];
+            }
+
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.getCategories')
+                ->setData([
+                    'access_token' => $user->vk_token,
+                    'lang' => 'ru'
+                ])
+                ->send();
+            if ($response->isOk) {
+                $categories = $response->data['response'];
+            }
+
+            return $this->render('campaign', [
+                'campaign' => $campaign,
+                'account_id' => $account_id,
+                'cabinet' => $cabinet,
+                'ads' => $ads,
+                'statuses' => [
+                    0 => 'объявление остановлено',
+                    1 => 'объявление запущено',
+                    2 => 'объявление удалено'
+                ],
+                'ad_platforms' => [
+                    0 => 'ВКонтакте и сайты-партнёры',
+                    1 => 'только ВКонтакте',
+                    'all' => 'все площадки',
+                    'desktop' => 'полная версия сайта',
+                    'mobile' => 'мобильный сайт и приложения'
+                ],
+                'categories' => $categories,
+            ]);
+        }
+
+        $this->redirect(['site/index']);
+    }
+
+    public function actionVk()
+    {
+        $code = Yii::$app->request->get('code');
+        if($code) {
+            $client = new Client();
+            $response = $client->createRequest()
+                ->setMethod('get')
+                ->setUrl('https://oauth.vk.com/access_token')
+                ->setData([
+                    'client_id' => 6196137,
+                    'client_secret' => 'dp6t8N7g59iFnZqD01JU',
+                    'redirect_uri' => 'http://frontend.local/site/vk',
+                    'code' => $code
+                ])
+                ->send();
+            if ($response->isOk) {
+                $token = $response->data['access_token'];
+                $user = User::findOne(1);
+                $user->vk_token = $token;
+                $user->save(false);
+            }
+        }
+
+        return $this->goHome();
     }
 
     /**

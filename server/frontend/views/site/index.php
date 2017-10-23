@@ -11,7 +11,8 @@ $this->title = 'My Yii Application';
 
         <p class="lead">You have successfully created your Yii-powered application.</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <p><a class="btn btn-lg btn-success"
+              href="https://oauth.vk.com/authorize?client_id=6196137&redirect_uri=http://frontend.local/site/vk&display=page&scope=ads&response_type=code">Get VK token</a></p>
     </div>
 
     <div class="body-content">

@@ -11,7 +11,6 @@ import { WsComponent } from './ws/ws.component';
 import {WsService} from "./ws/ws.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {LoginService} from "./login/login.service";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { LogoutComponent } from './logout/logout.component';
 import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
 import { SignupComponent } from './signup/signup.component';
@@ -20,18 +19,20 @@ import {AlertService} from "./alert.service";
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { DynamicDirective } from './dynamic.directive';
 import { ErrorComponent } from './error/error.component';
+import { UsersComponent } from './users/users.component';
+import { SearchComponent } from './search/search.component';
+import { AlertModule } from 'ngx-bootstrap';
 
 
 const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch:'full' },
+    { path: 'search', component: SearchComponent },
+    { path: 'users', component: UsersComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent },
     { path: 'logout', component: LogoutComponent },
     { path: 'request-password-reset', component: RequestPasswordResetComponent },
-    {
-        path: 'reset-password',
-        component: ResetPasswordComponent
-    },
+    { path: 'reset-password', component: ResetPasswordComponent },
     { path: 'user/:id', component: UserComponent },
     { path: 'ws', component: WsComponent },
 
@@ -53,7 +54,9 @@ const routes: Routes = [
     BreadcrumbComponent,
     ResetPasswordComponent,
     DynamicDirective,
-    ErrorComponent
+    ErrorComponent,
+    UsersComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,7 @@ const routes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(routes),
-    NgbModule.forRoot()
+    AlertModule.forRoot()
   ],
   providers: [
       UserService, WsService, LoginService, AlertService
