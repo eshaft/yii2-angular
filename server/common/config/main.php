@@ -9,19 +9,6 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
-        'response' => [
-            /*'formatters' => [
-                'yaml' => [
-                    'class' => '\common\components\formatters\YamlResponseFormatter'
-                ],
-                'csv' => [
-                    'class' => '\common\components\formatters\CsvResponseFormatter'
-                ],
-                'xls' => [
-                    'class' => '\common\components\formatters\XlsResponseFormatter'
-                ]
-            ]*/
-        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,

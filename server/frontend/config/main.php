@@ -18,6 +18,19 @@ return [
                 'application/json' => 'yii\web\JsonParser',
             ]
         ],
+        'response' => [
+            'formatters' => [
+                'yaml' => [
+                    'class' => '\common\components\formatters\YamlResponseFormatter'
+                ],
+                'csv' => [
+                    'class' => '\common\components\formatters\CsvResponseFormatter'
+                ],
+                'xls' => [
+                    'class' => '\common\components\formatters\XlsResponseFormatter'
+                ]
+            ]
+        ],
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
