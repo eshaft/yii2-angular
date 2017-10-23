@@ -333,6 +333,18 @@ class SiteController extends Controller
 
             $response = $client->createRequest()
                 ->setMethod('get')
+                ->setUrl('https://api.vk.com/method/ads.getCategories')
+                ->setData([
+                    'access_token' => $user->vk_token,
+                    'lang' => 'ru'
+                ])
+                ->send();
+            if ($response->isOk) {
+                $categories = $response->data['response'];
+            }
+
+            $response = $client->createRequest()
+                ->setMethod('get')
                 ->setUrl('https://api.vk.com/method/ads.getCampaigns')
                 ->setData([
                     'access_token' => $user->vk_token,
@@ -342,18 +354,6 @@ class SiteController extends Controller
                 ->send();
             if ($response->isOk) {
                 $campaign = $response->data['response'];
-            }
-
-            $response = $client->createRequest()
-                ->setMethod('get')
-                ->setUrl('https://api.vk.com/method/ads.getCategories')
-                ->setData([
-                    'access_token' => $user->vk_token,
-                    'lang' => 'ru'
-                ])
-                ->send();
-            if ($response->isOk) {
-                $categories = $response->data['response'];
             }
 
             return $this->render('campaign', [
