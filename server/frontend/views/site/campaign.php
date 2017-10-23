@@ -7,8 +7,6 @@
  */
 ?>
 <h3><?=$cabinet['account_name']?></h3>
-<?php var_dump($campaigns)?>
-<?php var_dump($campaign)?>
 <h4><?=$campaign['name']?></h4>
 <p><a href="/site/cabinet?account_id=<?=$account_id?>" class="btn btn-primary" role="button">К списку кампаний</a></p>
 <?php if($ads): ?>
