@@ -229,7 +229,7 @@ class SiteController extends Controller
             ->where('f.bar = ?');
         echo $query; exit;*/
 
-        $characters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+        /*$characters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
         'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
         $fonts = ['Arial', 'Times New Roman', 'Verdana', 'Helvetica'];
         $factory = new FlyweightFactory();
@@ -241,7 +241,7 @@ class SiteController extends Controller
                 echo $rendered . "\n";
             }
         }
-        exit;
+        exit;*/
 
 
 
