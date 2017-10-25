@@ -1,9 +1,32 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\DesignPatterns\Creational\AbstractFactory\JsonFactory;
+use common\components\DesignPatterns\Creational\Builder\CarBuilder;
+use common\components\DesignPatterns\Creational\Builder\Director;
+use common\components\DesignPatterns\Creational\FactoryMethod\FactoryMethod;
+use common\components\DesignPatterns\Creational\FactoryMethod\GermanyFactory;
+use common\components\DesignPatterns\Creational\Multiton\Multiton;
+use common\components\DesignPatterns\Creational\Pool\WorkerPool;
+use common\components\DesignPatterns\Creational\Prototype\FooBookPrototype;
+use common\components\DesignPatterns\Creational\SimpleFactory\SimpleFactory;
+use common\components\DesignPatterns\Creational\Singleton\Singleton;
+use common\components\DesignPatterns\Creational\StaticFactory\StaticFactory;
+use common\components\DesignPatterns\Structural\Adapter\EBookAdapter;
+use common\components\DesignPatterns\Structural\Adapter\Kindle;
+use common\components\DesignPatterns\Structural\Bridge\HelloWorldService;
+use common\components\DesignPatterns\Structural\Bridge\HtmlFormatter;
+use common\components\DesignPatterns\Structural\Composite\Form;
+use common\components\DesignPatterns\Structural\Composite\InputElement;
+use common\components\DesignPatterns\Structural\Composite\TextElement;
+use common\components\DesignPatterns\Structural\DataMapper\StorageAdapter;
+use common\components\DesignPatterns\Structural\DataMapper\UserMapper;
+use common\components\DesignPatterns\Structural\Decorator\JsonRenderer;
+use common\components\DesignPatterns\Structural\Decorator\WebService;
 use common\components\formatters\CsvResponseFormatter;
 use common\components\formatters\XlsResponseFormatter;
 use common\components\formatters\YamlResponseFormatter;
+use common\components\vk\API;
 use common\jobs\MailJob;
 use common\models\Descr;
 use common\models\User;
@@ -144,6 +167,59 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        /*$factory = new JsonFactory();
+        $text = $factory->createText('foobar');
+        var_dump($text); exit;*/
+
+        //StaticFactory::factory('number');
+
+        /*$factory = new SimpleFactory();
+        $bicycle = $factory->createBicycle();
+        $bicycle->driveTo('Paris');
+        var_dump($bicycle); exit;*/
+
+        /*$factory = new GermanyFactory();
+        $result = $factory->create(FactoryMethod::FAST);
+        var_dump($result); exit;*/
+
+        /*$newVehicle = (new Director())->build(new CarBuilder());
+        var_dump($newVehicle); exit;*/
+
+        //var_dump(Singleton::getInstance());exit;
+
+        //var_dump(Multiton::getInstance('db')); exit;
+
+        /*$worker = (new WorkerPool())->get();
+        var_dump($worker); exit;*/
+
+        /*$fooPrototype = new FooBookPrototype();
+        $book1 = clone $fooPrototype;
+        $book1->setTitle('Foo Book No ' . 1);
+        $book2 = clone $fooPrototype;
+        var_dump($book1, $book2);exit;*/
+
+        /*$storage = new StorageAdapter([1 => ['username' => 'domnikl', 'email' => 'liebler.dominik@gmail.com']]);
+        $mapper = new UserMapper($storage);
+        $user = $mapper->findById(1);
+        var_dump($user); exit;*/
+
+        /*$form = new Form();
+        $form->addElement(new InputElement());
+        $form->addElement(new TextElement('777'));
+        echo $form->render(); exit;*/
+
+        //echo (new JsonRenderer(new WebService('text')))->renderData();exit;
+
+        //echo (new HelloWorldService(new HtmlFormatter()))->get(); exit;
+
+        //echo (new EBookAdapter(new Kindle()))->getPage(); exit;
+
+
+
+
+
+
+
         /*$models = User::find()->all();
         $data = array_map(function($model) {
             return $model->toArray();
@@ -189,10 +265,10 @@ class SiteController extends Controller
             'body' => 'Hello! rabbitmq works!'
         ]));*/
 
-        $user = Yii::$app->user->identity;
+        /*$user = Yii::$app->user->identity;
         if($user->vk_token) {
             $this->redirect(['site/cabinetes']);
-        }
+        }*/
 
 
         return $this->render('index');
@@ -213,35 +289,17 @@ class SiteController extends Controller
     {
         $user = Yii::$app->user->identity;
         if($user->vk_token) {
-            $client = new Client();
-            $response = $client->createRequest()
-                ->setMethod('get')
-                ->setUrl('https://api.vk.com/method/ads.getAccounts')
-                ->setData([
-                    'access_token' => $user->vk_token
-                ])
-                ->send();
-            if ($response->isOk) {
-                $cabinetes = $response->data['response'];
-            }
 
-            $response = $client->createRequest()
-                ->setMethod('get')
-                ->setUrl('https://api.vk.com/method/users.get')
-                ->setData([
-                    'access_token' => $user->vk_token,
-                    'fields' => 'photo_id,photo_50, photo_100, photo_200_orig, photo_200, photo_400_orig, photo_max, photo_max_orig'
-                ])
-                ->send();
-            if ($response->isOk) {
-                $users = $response->data['response'][0];
-            }
+            $vkresp = (new API($user->vk_token))
+                ->getAccounts()
+                ->getCurrentUser()
+                ->execute()
+                ->response();
 
             return $this->render('cabinetes', [
-                'cabinetes' => $cabinetes,
-                'user' => $users
+                'cabinetes' => $vkresp->getCabinetes(),
+                'user' => $vkresp->getCurrentUser()
             ]);
-
         }
 
         $this->redirect(['site/index']);
@@ -252,35 +310,27 @@ class SiteController extends Controller
         $user = Yii::$app->user->identity;
         if($user->vk_token) {
             $client = new Client();
-            $response = $client->createRequest()
-                ->setMethod('get')
-                ->setUrl('https://api.vk.com/method/ads.getCampaigns')
-                ->setData([
-                    'access_token' => $user->vk_token,
-                    'account_id' => $account_id,
-                ])
-                ->send();
-            if ($response->isOk) {
-                $campaigns = $response->data['response'];
-            }
 
             $response = $client->createRequest()
                 ->setMethod('get')
-                ->setUrl('https://api.vk.com/method/ads.getAccounts')
+                ->setUrl('https://api.vk.com/method/execute')
                 ->setData([
-                    'access_token' => $user->vk_token
+                    'access_token' => $user->vk_token,
+                    'code' => '
+                        return {
+                            "campaigns": API.ads.getCampaigns({"account_id": '.$account_id.'}),
+                            "cabinetes": API.ads.getAccounts()
+                        };
+                    '
                 ])
                 ->send();
             if ($response->isOk) {
-                $cabinetes = $response->data['response'];
-                $cabinetes = array_filter($cabinetes, function($a) use ($account_id) {
-                    return $a["account_id"] == $account_id;
-                });
-                if($cabinetes) {
-                    foreach ($cabinetes as $cab) {
-                        $cabinet = $cab;
-                    }
+                $campaigns = $response->data['response']['campaigns'];
+                $cabinetes = $response->data['response']['cabinetes'];
+                if(is_array($cabinetes)) {
+                    $cabinet = ArrayHelper::index($cabinetes, 'account_id')[$account_id];
                 }
+
             }
 
             return $this->render('cabinet', [
@@ -300,49 +350,41 @@ class SiteController extends Controller
             $client = new Client();
             $response = $client->createRequest()
                 ->setMethod('get')
-                ->setUrl('https://api.vk.com/method/ads.getAds')
+                ->setUrl('https://api.vk.com/method/execute')
                 ->setData([
                     'access_token' => $user->vk_token,
-                    'account_id' => $account_id,
-                    'campaign_ids' => Json::encode([$campaign_id]),
-                    'include_deleted' => 0
+                    'code' => '
+                        return {
+                            "categories": API.ads.getCategories({"lang": "ru"}),
+                            "ads": API.ads.getAds({
+                                "account_id": '.$account_id.',
+                                "campaign_ids": "['.$campaign_id.']",
+                                "include_deleted": 0
+                            }),
+                            "campaign": API.ads.getCampaigns({
+                                "account_id": '.$account_id.',
+                                "campaign_ids": "['.$campaign_id.']"
+                            })[0],
+                            "cabinetes": API.ads.getAccounts()                                                        
+                        };
+                    '
                 ])
                 ->send();
             if ($response->isOk) {
-                $ads = $response->data['response'];
-            }
-
-            $response = $client->createRequest()
-                ->setMethod('get')
-                ->setUrl('https://api.vk.com/method/ads.getAccounts')
-                ->setData([
-                    'access_token' => $user->vk_token
-                ])
-                ->send();
-            if ($response->isOk) {
-                $cabinetes = $response->data['response'];
-                $cabinetes = array_filter($cabinetes, function($a) use ($account_id) {
-                    return $a["account_id"] == $account_id;
-                });
-                if($cabinetes) {
-                    foreach ($cabinetes as $cab) {
-                        $cabinet = $cab;
-                    }
+                $ads = $response->data['response']['ads'];
+                $campaign = $response->data['response']['campaign'];
+                $cabinetes = $response->data['response']['cabinetes'];
+                if(is_array($cabinetes)) {
+                    $cabinet = ArrayHelper::index($cabinetes, 'account_id')[$account_id];
+                }
+                $categories = $response->data['response']['categories'];
+                if(is_array($categories)) {
+                    $categories = ArrayHelper::index($categories, 'id');
                 }
             }
 
-            $response = $client->createRequest()
-                ->setMethod('get')
-                ->setUrl('https://api.vk.com/method/ads.getCampaigns')
-                ->setData([
-                    'access_token' => $user->vk_token,
-                    'account_id' => $account_id,
-                    'campaign_ids' => Json::encode([$campaign_id]),
-                ])
-                ->send();
-            if ($response->isOk) {
-                $campaign = $response->data['response'][0];
-            }
+            //var_dump($flood); exit;
+
 
             return $this->render('campaign', [
                 'campaign' => $campaign,
@@ -350,6 +392,7 @@ class SiteController extends Controller
                 'campaign_id' => $campaign_id,
                 'cabinet' => $cabinet,
                 'ads' => $ads,
+                'categories' => $categories,
                 'statuses' => [
                     0 => 'объявление остановлено',
                     1 => 'объявление запущено',
