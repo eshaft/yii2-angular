@@ -27,6 +27,7 @@ use common\components\DesignPatterns\Structural\DependencyInjection\DatabaseConf
 use common\components\DesignPatterns\Structural\DependencyInjection\DatabaseConnection;
 use common\components\DesignPatterns\Structural\Facade\Facade;
 use common\components\DesignPatterns\Structural\FluentInterface\Sql;
+use common\components\DesignPatterns\Structural\Flyweight\FlyweightFactory;
 use common\components\formatters\CsvResponseFormatter;
 use common\components\formatters\XlsResponseFormatter;
 use common\components\formatters\YamlResponseFormatter;
@@ -222,11 +223,28 @@ class SiteController extends Controller
         $connection = new DatabaseConnection($config);
         echo $connection->getDsn(); exit;*/
 
-        $query = (new Sql())
+        /*$query = (new Sql())
             ->select(['foo', 'bar'])
             ->from('foobar', 'f')
             ->where('f.bar = ?');
-        echo $query; exit;
+        echo $query; exit;*/
+
+        $characters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
+        'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+        $fonts = ['Arial', 'Times New Roman', 'Verdana', 'Helvetica'];
+        $factory = new FlyweightFactory();
+        foreach ($characters as $char) {
+            foreach ($fonts as $font) {
+                $flyweight = $factory->get($char);
+                $rendered = $flyweight->render($font);
+
+                echo $rendered . "\n";
+            }
+        }
+        exit;
+
+
+
 
 
         /*$models = User::find()->all();
