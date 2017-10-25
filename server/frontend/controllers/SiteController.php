@@ -23,6 +23,9 @@ use common\components\DesignPatterns\Structural\DataMapper\StorageAdapter;
 use common\components\DesignPatterns\Structural\DataMapper\UserMapper;
 use common\components\DesignPatterns\Structural\Decorator\JsonRenderer;
 use common\components\DesignPatterns\Structural\Decorator\WebService;
+use common\components\DesignPatterns\Structural\DependencyInjection\DatabaseConfiguration;
+use common\components\DesignPatterns\Structural\DependencyInjection\DatabaseConnection;
+use common\components\DesignPatterns\Structural\Facade\Facade;
 use common\components\formatters\CsvResponseFormatter;
 use common\components\formatters\XlsResponseFormatter;
 use common\components\formatters\YamlResponseFormatter;
@@ -214,9 +217,9 @@ class SiteController extends Controller
 
         //echo (new EBookAdapter(new Kindle()))->getPage(); exit;
 
-
-
-
+        $config = new DatabaseConfiguration('localhost', 3306, 'domnikl', '1234');
+        $connection = new DatabaseConnection($config);
+        echo $connection->getDsn(); exit;
 
 
 
