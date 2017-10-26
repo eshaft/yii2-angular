@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use common\components\DesignPatterns\Behavioral\ChainOfResponsibilities\FastStorage;
+use common\components\DesignPatterns\Behavioral\ChainOfResponsibilities\SlowStorage;
 use common\components\DesignPatterns\Creational\AbstractFactory\JsonFactory;
 use common\components\DesignPatterns\Creational\Builder\CarBuilder;
 use common\components\DesignPatterns\Creational\Builder\Director;
@@ -242,6 +244,10 @@ class SiteController extends Controller
             }
         }
         exit;*/
+
+        $chain = new FastStorage(['/foo/bar?index=1' => 'Hello In Memory!'], new SlowStorage());
+
+
 
 
 
