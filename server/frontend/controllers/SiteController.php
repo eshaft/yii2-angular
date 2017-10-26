@@ -14,6 +14,7 @@ use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Server;
 use common\components\DesignPatterns\Behavioral\Memento\Ticket;
 use common\components\DesignPatterns\Behavioral\NullObject\NullLogger;
 use common\components\DesignPatterns\Behavioral\NullObject\Service;
+use common\components\DesignPatterns\Behavioral\Observer\UserObserver;
 use common\components\DesignPatterns\Behavioral\Strategy\IdComparator;
 use common\components\DesignPatterns\Behavioral\Strategy\ObjectCollection;
 use common\components\DesignPatterns\Behavioral\TemplateMethod\BeachJourney;
@@ -305,9 +306,15 @@ class SiteController extends Controller
         $memento = $ticket->saveToMemento();
         echo $memento->getState(); exit;*/
 
-        $logger = new Service(new NullLogger());
-        $logger->doSomething(); exit;
+        /*$logger = new Service(new NullLogger());
+        $logger->doSomething(); exit;*/
 
+
+        $observer = new UserObserver();
+        $user = new \common\components\DesignPatterns\Behavioral\Observer\User();
+        $user->attach($observer);
+        $user->changeEmail('foo@bar.com');
+        var_dump($observer->getChangedUsers()); exit;
 
 
         /*$models = User::find()->all();
