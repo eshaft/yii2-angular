@@ -6,7 +6,7 @@
  * Time: 19:12
  */
 
-namespace common\components\DesignPatterns\Structural\ServiceLocator;
+namespace common\components\DesignPatterns\More\ServiceLocator;
 
 
 use Throwable;

@@ -6,7 +6,7 @@
  * Time: 19:08
  */
 
-namespace common\components\DesignPatterns\Structural\ServiceLocator;
+namespace common\components\DesignPatterns\More\ServiceLocator;
 
 
 class LogService

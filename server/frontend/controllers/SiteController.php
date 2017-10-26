@@ -36,6 +36,9 @@ use common\components\DesignPatterns\Creational\Prototype\FooBookPrototype;
 use common\components\DesignPatterns\Creational\SimpleFactory\SimpleFactory;
 use common\components\DesignPatterns\Creational\Singleton\Singleton;
 use common\components\DesignPatterns\Creational\StaticFactory\StaticFactory;
+use common\components\DesignPatterns\More\Repository\MemoryStorage;
+use common\components\DesignPatterns\More\Repository\Post;
+use common\components\DesignPatterns\More\Repository\PostRepository;
 use common\components\DesignPatterns\Structural\Adapter\EBookAdapter;
 use common\components\DesignPatterns\Structural\Adapter\Kindle;
 use common\components\DesignPatterns\Structural\Bridge\HelloWorldService;
@@ -52,8 +55,8 @@ use common\components\DesignPatterns\Structural\DependencyInjection\DatabaseConn
 use common\components\DesignPatterns\Structural\Facade\Facade;
 use common\components\DesignPatterns\Structural\FluentInterface\Sql;
 use common\components\DesignPatterns\Structural\Flyweight\FlyweightFactory;
-use common\components\DesignPatterns\Structural\ServiceLocator\LogService;
-use common\components\DesignPatterns\Structural\ServiceLocator\ServiceLocator;
+use common\components\DesignPatterns\More\ServiceLocator\LogService;
+use common\components\DesignPatterns\More\ServiceLocator\ServiceLocator;
 use common\components\formatters\CsvResponseFormatter;
 use common\components\formatters\XlsResponseFormatter;
 use common\components\formatters\YamlResponseFormatter;
@@ -340,11 +343,16 @@ class SiteController extends Controller
         $user->accept($visitor);
         var_dump($visitor->getVisited()); exit;*/
 
-        $serviceLocator = new ServiceLocator();
+        /*$serviceLocator = new ServiceLocator();
         $serviceLocator->addInstance(LogService::class, new LogService());
-        echo $serviceLocator->has(LogService::class); exit;
+        echo $serviceLocator->has(LogService::class); exit;*/
 
+        $repository = new PostRepository(new MemoryStorage());
+        $post = new Post(null, 'Repository Pattern', 'Design Patterns PHP');
 
+        $repository->save($post);
+
+        var_dump($repository->findById(1)); exit;
 
 
 
