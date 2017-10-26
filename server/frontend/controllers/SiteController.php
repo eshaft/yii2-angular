@@ -3,6 +3,9 @@ namespace frontend\controllers;
 
 use common\components\DesignPatterns\Behavioral\ChainOfResponsibilities\FastStorage;
 use common\components\DesignPatterns\Behavioral\ChainOfResponsibilities\SlowStorage;
+use common\components\DesignPatterns\Behavioral\Command\HelloCommand;
+use common\components\DesignPatterns\Behavioral\Command\Invoker;
+use common\components\DesignPatterns\Behavioral\Command\Receiver;
 use common\components\DesignPatterns\Behavioral\Mediator\Mediator;
 use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Database;
 use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Server;
@@ -270,11 +273,16 @@ class SiteController extends Controller
         $obj->setComparator(new IdComparator());
         var_dump($obj->sort());exit;*/
 
-        $client = new \common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Client();
+        /*$client = new \common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Client();
         new Mediator(new Database(), $client, new Server());
-        $client->request();exit;
+        $client->request();exit;*/
 
-
+        $invoker = new Invoker();
+        $receiver = new Receiver();
+        $receiver->enableDate();
+        $invoker->setCommand(new HelloCommand($receiver));
+        $invoker->run();
+        echo $receiver->getOutput(); exit;
 
 
 
