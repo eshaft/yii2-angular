@@ -19,6 +19,8 @@ use common\components\DesignPatterns\Behavioral\Specifications\AndSpecification;
 use common\components\DesignPatterns\Behavioral\Specifications\Item;
 use common\components\DesignPatterns\Behavioral\Specifications\OrSpecification;
 use common\components\DesignPatterns\Behavioral\Specifications\PriceSpecification;
+use common\components\DesignPatterns\Behavioral\State\ContextOrder;
+use common\components\DesignPatterns\Behavioral\State\CreateOrder;
 use common\components\DesignPatterns\Behavioral\Strategy\IdComparator;
 use common\components\DesignPatterns\Behavioral\Strategy\ObjectCollection;
 use common\components\DesignPatterns\Behavioral\TemplateMethod\BeachJourney;
@@ -319,11 +321,16 @@ class SiteController extends Controller
         $user->changeEmail('foo@bar.com');
         var_dump($observer->getChangedUsers()); exit;*/
 
-        $spec1 = new PriceSpecification(50, 99);
+        /*$spec1 = new PriceSpecification(50, 99);
         $spec2 = new PriceSpecification(101, 200);
         $orSpec = new OrSpecification($spec1, $spec2);
-        echo $orSpec->isSatisfiedBy(new Item(150)); exit;
+        echo $orSpec->isSatisfiedBy(new Item(150)); exit;*/
 
+        $order = new CreateOrder();
+        $contextOrder = new ContextOrder();
+        $contextOrder->setState($order);
+        $contextOrder->done();
+        echo $contextOrder->getStatus(); exit;
 
 
 
