@@ -3,6 +3,8 @@ namespace frontend\controllers;
 
 use common\components\DesignPatterns\Behavioral\ChainOfResponsibilities\FastStorage;
 use common\components\DesignPatterns\Behavioral\ChainOfResponsibilities\SlowStorage;
+use common\components\DesignPatterns\Behavioral\Strategy\IdComparator;
+use common\components\DesignPatterns\Behavioral\Strategy\ObjectCollection;
 use common\components\DesignPatterns\Behavioral\TemplateMethod\BeachJourney;
 use common\components\DesignPatterns\Creational\AbstractFactory\JsonFactory;
 use common\components\DesignPatterns\Creational\Builder\CarBuilder;
@@ -248,9 +250,26 @@ class SiteController extends Controller
 
         //$chain = new FastStorage(['/foo/bar?index=1' => 'Hello In Memory!'], new SlowStorage());
 
-        $journey = new BeachJourney();
+        /*$journey = new BeachJourney();
         $journey->takeATrip();
-        var_dump($journey->getThingsToDo()); exit;
+        var_dump($journey->getThingsToDo()); exit;*/
+
+        $obj = new ObjectCollection([
+            [
+                [['id' => 2], ['id' => 1], ['id' => 3]],
+                ['id' => 1],
+            ],
+            [
+                [['id' => 3], ['id' => 2], ['id' => 1]],
+                ['id' => 1],
+            ],
+        ]);
+        $obj->setComparator(new IdComparator());
+        var_dump($obj->sort());exit;
+
+
+
+
 
 
 
