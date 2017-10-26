@@ -361,13 +361,13 @@ class SiteController extends Controller
         $teamLead = new TeamLead($junior);
         echo $teamLead->writeCode(); exit;*/
 
-        $colorAttribute = new Attribute('color');
+        /*$colorAttribute = new Attribute('color');
         $colorSilver = new Value($colorAttribute, 'silver');
         $colorBlack = new Value($colorAttribute, 'black');
         $memoryAttribute = new Attribute('memory');
         $memory8Gb = new Value($memoryAttribute, '8GB');
         $entity = new Entity('MacBook Pro', [$colorSilver, $colorBlack, $memory8Gb]);
-        echo $entity; exit;
+        echo $entity; exit;*/
 
 
         /*$models = User::find()->all();
