@@ -52,6 +52,8 @@ use common\components\DesignPatterns\Structural\DependencyInjection\DatabaseConn
 use common\components\DesignPatterns\Structural\Facade\Facade;
 use common\components\DesignPatterns\Structural\FluentInterface\Sql;
 use common\components\DesignPatterns\Structural\Flyweight\FlyweightFactory;
+use common\components\DesignPatterns\Structural\ServiceLocator\LogService;
+use common\components\DesignPatterns\Structural\ServiceLocator\ServiceLocator;
 use common\components\formatters\CsvResponseFormatter;
 use common\components\formatters\XlsResponseFormatter;
 use common\components\formatters\YamlResponseFormatter;
@@ -333,10 +335,17 @@ class SiteController extends Controller
         $contextOrder->done();
         echo $contextOrder->getStatus(); exit;*/
 
-        $user = new \common\components\DesignPatterns\Behavioral\Visitor\User('Dominik');
+        /*$user = new \common\components\DesignPatterns\Behavioral\Visitor\User('Dominik');
         $visitor = new RoleVisitor();
         $user->accept($visitor);
-        var_dump($visitor->getVisited()); exit;
+        var_dump($visitor->getVisited()); exit;*/
+
+        $serviceLocator = new ServiceLocator();
+        $serviceLocator->addInstance(LogService::class, new LogService());
+        echo $serviceLocator->has(LogService::class); exit;
+
+
+
 
 
         /*$models = User::find()->all();
