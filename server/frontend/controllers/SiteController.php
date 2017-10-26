@@ -15,6 +15,10 @@ use common\components\DesignPatterns\Behavioral\Memento\Ticket;
 use common\components\DesignPatterns\Behavioral\NullObject\NullLogger;
 use common\components\DesignPatterns\Behavioral\NullObject\Service;
 use common\components\DesignPatterns\Behavioral\Observer\UserObserver;
+use common\components\DesignPatterns\Behavioral\Specifications\AndSpecification;
+use common\components\DesignPatterns\Behavioral\Specifications\Item;
+use common\components\DesignPatterns\Behavioral\Specifications\OrSpecification;
+use common\components\DesignPatterns\Behavioral\Specifications\PriceSpecification;
 use common\components\DesignPatterns\Behavioral\Strategy\IdComparator;
 use common\components\DesignPatterns\Behavioral\Strategy\ObjectCollection;
 use common\components\DesignPatterns\Behavioral\TemplateMethod\BeachJourney;
@@ -309,12 +313,18 @@ class SiteController extends Controller
         /*$logger = new Service(new NullLogger());
         $logger->doSomething(); exit;*/
 
-
-        $observer = new UserObserver();
+        /*$observer = new UserObserver();
         $user = new \common\components\DesignPatterns\Behavioral\Observer\User();
         $user->attach($observer);
         $user->changeEmail('foo@bar.com');
-        var_dump($observer->getChangedUsers()); exit;
+        var_dump($observer->getChangedUsers()); exit;*/
+
+        $spec1 = new PriceSpecification(50, 99);
+        $spec2 = new PriceSpecification(101, 200);
+        $orSpec = new OrSpecification($spec1, $spec2);
+        echo $orSpec->isSatisfiedBy(new Item(150)); exit;
+
+
 
 
         /*$models = User::find()->all();
