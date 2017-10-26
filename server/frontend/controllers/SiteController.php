@@ -36,6 +36,8 @@ use common\components\DesignPatterns\Creational\Prototype\FooBookPrototype;
 use common\components\DesignPatterns\Creational\SimpleFactory\SimpleFactory;
 use common\components\DesignPatterns\Creational\Singleton\Singleton;
 use common\components\DesignPatterns\Creational\StaticFactory\StaticFactory;
+use common\components\DesignPatterns\More\Delegation\JuniorDeveloper;
+use common\components\DesignPatterns\More\Delegation\TeamLead;
 use common\components\DesignPatterns\More\Repository\MemoryStorage;
 use common\components\DesignPatterns\More\Repository\Post;
 use common\components\DesignPatterns\More\Repository\PostRepository;
@@ -347,12 +349,15 @@ class SiteController extends Controller
         $serviceLocator->addInstance(LogService::class, new LogService());
         echo $serviceLocator->has(LogService::class); exit;*/
 
-        $repository = new PostRepository(new MemoryStorage());
+        /*$repository = new PostRepository(new MemoryStorage());
         $post = new Post(null, 'Repository Pattern', 'Design Patterns PHP');
-
         $repository->save($post);
+        var_dump($repository->findById(1)); exit;*/
 
-        var_dump($repository->findById(1)); exit;
+        /*$junior = new JuniorDeveloper();
+        $teamLead = new TeamLead($junior);
+        echo $teamLead->writeCode(); exit;*/
+
 
 
 
