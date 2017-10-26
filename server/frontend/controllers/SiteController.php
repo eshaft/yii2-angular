@@ -12,6 +12,8 @@ use common\components\DesignPatterns\Behavioral\Mediator\Mediator;
 use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Database;
 use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Server;
 use common\components\DesignPatterns\Behavioral\Memento\Ticket;
+use common\components\DesignPatterns\Behavioral\NullObject\NullLogger;
+use common\components\DesignPatterns\Behavioral\NullObject\Service;
 use common\components\DesignPatterns\Behavioral\Strategy\IdComparator;
 use common\components\DesignPatterns\Behavioral\Strategy\ObjectCollection;
 use common\components\DesignPatterns\Behavioral\TemplateMethod\BeachJourney;
@@ -297,14 +299,14 @@ class SiteController extends Controller
         }
         var_dump($books); exit;*/
 
-        $ticket = new Ticket();
+        /*$ticket = new Ticket();
         $ticket->open();
         $openedState = $ticket->getState();
         $memento = $ticket->saveToMemento();
-        echo $memento->getState(); exit;
+        echo $memento->getState(); exit;*/
 
-
-
+        $logger = new Service(new NullLogger());
+        $logger->doSomething(); exit;
 
 
 
