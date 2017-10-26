@@ -3,6 +3,9 @@ namespace frontend\controllers;
 
 use common\components\DesignPatterns\Behavioral\ChainOfResponsibilities\FastStorage;
 use common\components\DesignPatterns\Behavioral\ChainOfResponsibilities\SlowStorage;
+use common\components\DesignPatterns\Behavioral\Mediator\Mediator;
+use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Database;
+use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Server;
 use common\components\DesignPatterns\Behavioral\Strategy\IdComparator;
 use common\components\DesignPatterns\Behavioral\Strategy\ObjectCollection;
 use common\components\DesignPatterns\Behavioral\TemplateMethod\BeachJourney;
@@ -254,7 +257,7 @@ class SiteController extends Controller
         $journey->takeATrip();
         var_dump($journey->getThingsToDo()); exit;*/
 
-        $obj = new ObjectCollection([
+        /*$obj = new ObjectCollection([
             [
                 [['id' => 2], ['id' => 1], ['id' => 3]],
                 ['id' => 1],
@@ -265,9 +268,11 @@ class SiteController extends Controller
             ],
         ]);
         $obj->setComparator(new IdComparator());
-        var_dump($obj->sort());exit;
+        var_dump($obj->sort());exit;*/
 
-
+        $client = new \common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Client();
+        new Mediator(new Database(), $client, new Server());
+        $client->request();exit;
 
 
 
