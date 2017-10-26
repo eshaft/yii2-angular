@@ -245,9 +245,7 @@ class SiteController extends Controller
         }
         exit;*/
 
-        $chain = new FastStorage(['/foo/bar?index=1' => 'Hello In Memory!'], new SlowStorage());
-
-
+        //$chain = new FastStorage(['/foo/bar?index=1' => 'Hello In Memory!'], new SlowStorage());
 
 
 
