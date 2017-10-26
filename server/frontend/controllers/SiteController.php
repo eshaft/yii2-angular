@@ -24,6 +24,7 @@ use common\components\DesignPatterns\Behavioral\State\CreateOrder;
 use common\components\DesignPatterns\Behavioral\Strategy\IdComparator;
 use common\components\DesignPatterns\Behavioral\Strategy\ObjectCollection;
 use common\components\DesignPatterns\Behavioral\TemplateMethod\BeachJourney;
+use common\components\DesignPatterns\Behavioral\Visitor\RoleVisitor;
 use common\components\DesignPatterns\Creational\AbstractFactory\JsonFactory;
 use common\components\DesignPatterns\Creational\Builder\CarBuilder;
 use common\components\DesignPatterns\Creational\Builder\Director;
@@ -326,12 +327,16 @@ class SiteController extends Controller
         $orSpec = new OrSpecification($spec1, $spec2);
         echo $orSpec->isSatisfiedBy(new Item(150)); exit;*/
 
-        $order = new CreateOrder();
+        /*$order = new CreateOrder();
         $contextOrder = new ContextOrder();
         $contextOrder->setState($order);
         $contextOrder->done();
-        echo $contextOrder->getStatus(); exit;
+        echo $contextOrder->getStatus(); exit;*/
 
+        $user = new \common\components\DesignPatterns\Behavioral\Visitor\User('Dominik');
+        $visitor = new RoleVisitor();
+        $user->accept($visitor);
+        var_dump($visitor->getVisited()); exit;
 
 
         /*$models = User::find()->all();
