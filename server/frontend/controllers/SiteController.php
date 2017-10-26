@@ -11,6 +11,7 @@ use common\components\DesignPatterns\Behavioral\Iterator\BookList;
 use common\components\DesignPatterns\Behavioral\Mediator\Mediator;
 use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Database;
 use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Server;
+use common\components\DesignPatterns\Behavioral\Memento\Ticket;
 use common\components\DesignPatterns\Behavioral\Strategy\IdComparator;
 use common\components\DesignPatterns\Behavioral\Strategy\ObjectCollection;
 use common\components\DesignPatterns\Behavioral\TemplateMethod\BeachJourney;
@@ -286,7 +287,7 @@ class SiteController extends Controller
         $invoker->run();
         echo $receiver->getOutput(); exit;*/
 
-        $bookList = new BookList();
+        /*$bookList = new BookList();
         $bookList->addBook(new Book('Learning PHP Design Patterns', 'William Sanders'));
         $bookList->addBook(new Book('Professional Php Design Patterns', 'Aaron Saray'));
         $bookList->addBook(new Book('Clean Code', 'Robert C. Martin'));
@@ -294,8 +295,13 @@ class SiteController extends Controller
         foreach ($bookList as $book) {
             $books[] = $book->getAuthorAndTitle();
         }
-        var_dump($books); exit;
+        var_dump($books); exit;*/
 
+        $ticket = new Ticket();
+        $ticket->open();
+        $openedState = $ticket->getState();
+        $memento = $ticket->saveToMemento();
+        echo $memento->getState(); exit;
 
 
 
