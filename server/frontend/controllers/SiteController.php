@@ -38,6 +38,9 @@ use common\components\DesignPatterns\Creational\Singleton\Singleton;
 use common\components\DesignPatterns\Creational\StaticFactory\StaticFactory;
 use common\components\DesignPatterns\More\Delegation\JuniorDeveloper;
 use common\components\DesignPatterns\More\Delegation\TeamLead;
+use common\components\DesignPatterns\More\EAV\Attribute;
+use common\components\DesignPatterns\More\EAV\Entity;
+use common\components\DesignPatterns\More\EAV\Value;
 use common\components\DesignPatterns\More\Repository\MemoryStorage;
 use common\components\DesignPatterns\More\Repository\Post;
 use common\components\DesignPatterns\More\Repository\PostRepository;
@@ -358,7 +361,13 @@ class SiteController extends Controller
         $teamLead = new TeamLead($junior);
         echo $teamLead->writeCode(); exit;*/
 
-
+        $colorAttribute = new Attribute('color');
+        $colorSilver = new Value($colorAttribute, 'silver');
+        $colorBlack = new Value($colorAttribute, 'black');
+        $memoryAttribute = new Attribute('memory');
+        $memory8Gb = new Value($memoryAttribute, '8GB');
+        $entity = new Entity('MacBook Pro', [$colorSilver, $colorBlack, $memory8Gb]);
+        echo $entity; exit;
 
 
         /*$models = User::find()->all();
