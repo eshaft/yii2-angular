@@ -11,7 +11,7 @@ namespace common\components\DesignPatterns\Behavioral\State;
 
 class ContextOrder extends StateOrder
 {
-    public function getState():StateOrder
+    public function getState(): StateOrder
     {
         return static::$state;
     }
