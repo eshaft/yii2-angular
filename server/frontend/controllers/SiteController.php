@@ -6,6 +6,8 @@ use common\components\DesignPatterns\Behavioral\ChainOfResponsibilities\SlowStor
 use common\components\DesignPatterns\Behavioral\Command\HelloCommand;
 use common\components\DesignPatterns\Behavioral\Command\Invoker;
 use common\components\DesignPatterns\Behavioral\Command\Receiver;
+use common\components\DesignPatterns\Behavioral\Iterator\Book;
+use common\components\DesignPatterns\Behavioral\Iterator\BookList;
 use common\components\DesignPatterns\Behavioral\Mediator\Mediator;
 use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Database;
 use common\components\DesignPatterns\Behavioral\Mediator\Subsystem\Server;
@@ -277,12 +279,26 @@ class SiteController extends Controller
         new Mediator(new Database(), $client, new Server());
         $client->request();exit;*/
 
-        $invoker = new Invoker();
+        /*$invoker = new Invoker();
         $receiver = new Receiver();
         $receiver->enableDate();
         $invoker->setCommand(new HelloCommand($receiver));
         $invoker->run();
-        echo $receiver->getOutput(); exit;
+        echo $receiver->getOutput(); exit;*/
+
+        $bookList = new BookList();
+        $bookList->addBook(new Book('Learning PHP Design Patterns', 'William Sanders'));
+        $bookList->addBook(new Book('Professional Php Design Patterns', 'Aaron Saray'));
+        $bookList->addBook(new Book('Clean Code', 'Robert C. Martin'));
+        $books = [];
+        foreach ($bookList as $book) {
+            $books[] = $book->getAuthorAndTitle();
+        }
+        var_dump($books); exit;
+
+
+
+
 
 
 
