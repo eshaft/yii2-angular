@@ -11,6 +11,9 @@ namespace common\components\DesignPatterns\Creational\Multiton;
 
 final class Multiton
 {
+    const INSTANCE_1 = 1;
+    const INSTANCE_2 = 2;
+
     private static $instances = [];
 
     public static function getInstance(string $instanceName): Multiton

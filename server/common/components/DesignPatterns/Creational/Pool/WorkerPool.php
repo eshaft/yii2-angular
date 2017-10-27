@@ -9,7 +9,7 @@
 namespace common\components\DesignPatterns\Creational\Pool;
 
 
-class WorkerPool
+class WorkerPool implements \Countable
 {
     private $freeWorkers = [];
     private $occupiedWorkers = [];
