@@ -37,7 +37,7 @@ abstract class Registry
     public static function get(string $key)
     {
         if (!in_array($key, self::$allowedKeys) || !isset(self::$storedValues[$key])) {
-            throw new \InvalidArgumentException('Invalid key given');
+            throw new InvalidArgumentException('Invalid key given');
         }
 
         return self::$storedValues[$key];
