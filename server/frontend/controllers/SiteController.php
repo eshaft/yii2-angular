@@ -68,10 +68,12 @@ use common\components\formatters\YamlResponseFormatter;
 use common\components\vk\API;
 use common\jobs\MailJob;
 use common\models\Descr;
+use common\models\LandingForm;
 use common\models\User;
 use common\models\UserAuth;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\httpclient\Client;
@@ -84,6 +86,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\Response;
 
 /**
  * Site controller
@@ -670,6 +673,31 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Displays landing page
+     *
+     * @return array|string
+     */
+    public function actionLanding()
+    {
+        $model = new LandingForm();
+
+        if (Yii::$app->request->isAjax && $model->load(Yii::$app->request->post())) {
+            if (Yii::$app->request->isPjax) {
+                if ($model->validate()) {
+                    if ($model->sendEmail()) {
+                        $model = new LandingForm();
+                    }
+                }
+            } else {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
+            }
+        }
+
+        return $this->render('landing', ['model' => $model]);
     }
 
     /**
