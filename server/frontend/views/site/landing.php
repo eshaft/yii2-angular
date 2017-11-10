@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\web\View;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
@@ -9,6 +10,7 @@ use yii\widgets\Pjax;
 /* @var $form ActiveForm */
 
 $this->title = "Landing";
+$this->registerAssetBundle(\frontend\assets\LandingAsset::className());
 ?>
 <div class="site-landing">
 
@@ -17,7 +19,8 @@ $this->title = "Landing";
             <?php Pjax::begin();
             $form = ActiveForm::begin([
                 'options' => ['data' => ['pjax' => true]],
-                'enableAjaxValidation' => true,
+                'enableAjaxValidation' => false,
+                'validateOnBlur' => false
             ]); ?>
 
             <?= $form->field($model, 'name')->textInput(['id' => 'name-1']) ?>
@@ -37,10 +40,11 @@ $this->title = "Landing";
             <?php Pjax::begin();
             $form = ActiveForm::begin([
                 'options' => ['data' => ['pjax' => true]],
-                'enableAjaxValidation' => true,
+                'enableAjaxValidation' => false,
+                'validateOnBlur' => false
             ]); ?>
 
-            <?= $form->field($model, 'name')->textInput(['id' => 'name-1']) ?>
+            <?= $form->field($model, 'name')->textInput(['id' => 'name-2']) ?>
             <?= $form->field($model, 'phone')
                 ->widget(\yii\widgets\MaskedInput::className(), [
                     'mask' => $model->getPhoneMask(),
