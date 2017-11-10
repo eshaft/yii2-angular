@@ -15,6 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->registerAssetBundle(\frontend\assets\LandingAsset::className());
 ?>
 <div class="site-landing">
+    <h1><?= Html::encode($this->title) ?></h1>
 
     <div class="row">
         <?php for($i = 1; $i <= 4; $i++): ?>
