@@ -1,0 +1,12 @@
+.submit-success {
+    display: none;
+    font-size: 70px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #ccc;
+}
+
+.submit-success p {
+    font-size: 25px;
+}

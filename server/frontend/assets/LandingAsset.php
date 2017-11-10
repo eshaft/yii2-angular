@@ -12,6 +12,7 @@ class LandingAsset extends AssetBundle
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $css = [
+        'css/landing.css'
     ];
     public $js = [
         'js/landing/pjax-submit-event.js'

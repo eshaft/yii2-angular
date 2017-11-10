@@ -1,5 +1,6 @@
 <?php
 
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -10,53 +11,88 @@ use yii\widgets\Pjax;
 /* @var $form ActiveForm */
 
 $this->title = "Landing";
+$this->params['breadcrumbs'][] = $this->title;
 $this->registerAssetBundle(\frontend\assets\LandingAsset::className());
 ?>
 <div class="site-landing">
 
     <div class="row">
-        <div class="col-lg-3">
-            <?php Pjax::begin();
-            $form = ActiveForm::begin([
-                'options' => ['data' => ['pjax' => true]],
-                'enableAjaxValidation' => false,
-                'validateOnBlur' => false
-            ]); ?>
+        <?php for($i = 1; $i <= 4; $i++): ?>
+            <div class="col-lg-3">
+                <div class="submit-success">
+                    <span class="glyphicon glyphicon-send"></span>
+                    <p>Your phone was sent!</p>
+                </div>
+                <div class="landing-form">
+                    <?php Pjax::begin();
+                    $form = ActiveForm::begin([
+                        'options' => ['data' => ['pjax' => true]],
+                        'enableAjaxValidation' => false,
+                        'validateOnBlur' => false
+                    ]); ?>
 
-            <?= $form->field($model, 'name')->textInput(['id' => 'name-1']) ?>
-            <?= $form->field($model, 'phone')
-                ->widget(\yii\widgets\MaskedInput::className(), [
-                    'mask' => $model->getPhoneMask(),
-                    'options' => ['id' => 'phone-1']
-                ])->textInput(['id' => 'phone-1']) ?>
+                    <?= $form->field($model, 'name')->textInput(['id' => "name-$i"]) ?>
+                    <?= $form->field($model, 'phone')
+                        ->widget(\yii\widgets\MaskedInput::className(), [
+                            'mask' => $model->getPhoneMask(),
+                            'options' => ['id' => "phone-$i"]
+                        ])->textInput(['id' => "phone-$i"]) ?>
 
-            <div class="form-group">
-                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+                    <div class="form-group">
+                        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+                    </div>
+                    <?php ActiveForm::end();
+                    Pjax::end();?>
+                </div>
             </div>
-            <?php ActiveForm::end();
-            Pjax::end();?>
-        </div>
-        <div class="col-lg-3">
-            <?php Pjax::begin();
-            $form = ActiveForm::begin([
-                'options' => ['data' => ['pjax' => true]],
-                'enableAjaxValidation' => false,
-                'validateOnBlur' => false
-            ]); ?>
+        <?php endfor; ?>
+    </div>
 
-            <?= $form->field($model, 'name')->textInput(['id' => 'name-2']) ?>
-            <?= $form->field($model, 'phone')
-                ->widget(\yii\widgets\MaskedInput::className(), [
-                    'mask' => $model->getPhoneMask(),
-                    'options' => ['id' => 'phone-2']
-                ])->textInput(['id' => 'phone-2']) ?>
+    <div class="row">
+        <?php for($i = 5; $i <= 8; $i++): ?>
+            <div class="col-lg-3">
+                <?php
+                Modal::begin([
+                    'header' => '<h4>Send phone!</h4>',
+                    'toggleButton' => [
+                        'tag' => 'button',
+                        'class' => 'btn btn-info',
+                        'label' => 'Send phone!',
+                    ]
+                ]);
+                ?>
 
-            <div class="form-group">
-                <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+                <div class="submit-success">
+                    <span class="glyphicon glyphicon-send"></span>
+                    <p>Your phone was sent!</p>
+                </div>
+                <div class="landing-form">
+                    <?php Pjax::begin();
+                    $form = ActiveForm::begin([
+                        'options' => ['data' => ['pjax' => true]],
+                        'enableAjaxValidation' => false,
+                        'validateOnBlur' => false
+                    ]); ?>
+
+                    <?= $form->field($model, 'name')->textInput(['id' => "name-$i"]) ?>
+                    <?= $form->field($model, 'phone')
+                        ->widget(\yii\widgets\MaskedInput::className(), [
+                            'mask' => $model->getPhoneMask(),
+                            'options' => ['id' => "phone-$i"]
+                        ])->textInput(['id' => "phone-$i"]) ?>
+
+                    <div class="form-group">
+                        <?= Html::submitButton('Submit', ['class' => 'btn btn-primary']) ?>
+                    </div>
+                    <?php ActiveForm::end();
+                    Pjax::end();?>
+                </div>
+
+                <?php
+                Modal::end();
+                ?>
             </div>
-            <?php ActiveForm::end();
-            Pjax::end();?>
-        </div>
+        <?php endfor; ?>
     </div>
 
 
