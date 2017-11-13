@@ -47,7 +47,7 @@ services:
             - "3306:3306"            
         volumes:
             - ./percona:/var/lib/mysql
-            - ./config/percona:/etc/mysql
+            - ./config/percona:/etc/mysql/conf.d
             - ./dumps:/dumps
         environment:
             MYSQL_ROOT_PASSWORD: 1234    

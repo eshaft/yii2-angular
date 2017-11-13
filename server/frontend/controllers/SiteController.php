@@ -72,6 +72,8 @@ use common\models\LandingForm;
 use common\models\User;
 use common\models\UserAuth;
 use Yii;
+use yii\authclient\ClientInterface;
+use yii\authclient\clients\VKontakte;
 use yii\base\InvalidParamException;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -144,7 +146,7 @@ class SiteController extends Controller
         ];
     }
 
-    public function onAuthSuccess($client)
+    public function onAuthSuccess(ClientInterface $client)
     {
         $attributes = $client->getUserAttributes();
 
@@ -166,7 +168,7 @@ class SiteController extends Controller
                 } else {
                     $password = Yii::$app->security->generateRandomString(6);
                     $user = new User([
-                        'username' => $attributes['login'],
+                        'username' => $attributes['email'],
                         'email' => $attributes['email'],
                         'password' => $password,
                     ]);
@@ -422,6 +424,10 @@ class SiteController extends Controller
         if($user->vk_token) {
             $this->redirect(['site/cabinetes']);
         }*/
+
+        if ($auth = UserAuth::findOne(['user_id' => Yii::$app->user->id, 'source' => 'vk'])) {
+
+        }
 
 
         return $this->render('index');
